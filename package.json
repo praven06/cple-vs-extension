@@ -1,0 +1,138 @@
+{
+  "name": "cple-support",
+  "displayName": "CPLE Language Support",
+  "description": "Language support for CPLE programming language",
+  "version": "0.1.0",
+  "publisher": "your-name",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "cple",
+    "compiler",
+    "programming"
+  ],
+  "activationEvents": [
+    "onLanguage:cple"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "cple",
+        "aliases": [
+          "CPLE",
+          "cple"
+        ],
+        "extensions": [
+          ".cple"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "cple",
+        "scopeName": "source.cple",
+        "path": "./syntaxes/cple.tmLanguage.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "cple.compile",
+        "title": "CPLE: Compile File",
+        "icon": "$(play)"
+      },
+      {
+        "command": "cple.run",
+        "title": "CPLE: Compile and Run",
+        "icon": "$(run)"
+      },
+      {
+        "command": "cple.checkSyntax",
+        "title": "CPLE: Check Syntax"
+      },
+      {
+        "command": "cple.debug",
+        "title": "CPLE: Debug Compiler Output"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "cple.compile",
+        "key": "ctrl+shift+b",
+        "mac": "cmd+shift+b",
+        "when": "editorLangId == cple"
+      },
+      {
+        "command": "cple.run",
+        "key": "ctrl+shift+r",
+        "mac": "cmd+shift+r",
+        "when": "editorLangId == cple"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "cple.compile",
+          "when": "resourceLangId == cple",
+          "group": "navigation@1"
+        },
+        {
+          "command": "cple.run",
+          "when": "resourceLangId == cple",
+          "group": "navigation@2"
+        },
+        {
+          "command": "cple.debug",
+          "when": "resourceLangId == cple",
+          "group": "navigation@3"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "cple.run",
+          "when": "resourceLangId == cple",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "CPLE",
+      "properties": {
+        "cple.compilerPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to cple.out/cple.exe compiler. Leave empty to use bundled compiler."
+        },
+        "cple.compileOnSave": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically compile when saving .cple files"
+        },
+        "cple.showOutputOnCompile": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show output panel when compiling"
+        },
+        "cple.compilerArgs": {
+          "type": "string",
+          "default": "",
+          "description": "Additional arguments to pass to the compiler (e.g., -o output.exe)"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.80.0",
+    "@vscode/vsce": "^2.19.0",
+    "eslint": "^8.0.0"
+  }
+}
