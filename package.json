@@ -3,7 +3,7 @@
   "displayName": "CPLE Language Support",
   "description": "Language support for CPLE programming language",
   "version": "0.1.0",
-  "publisher": "your-name",
+  "publisher": "Praveen-Kumar",
   "engines": {
     "vscode": "^1.80.0"
   },

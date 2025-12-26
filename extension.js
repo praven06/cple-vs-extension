@@ -95,7 +95,7 @@ async function compileFile(context, document = null) {
   const additionalArgs = config.get("compilerArgs") || "";
   const command = `"${compilerPath}" "${filePath}" ${additionalArgs}`.trim();
 
-  outputChannel.appendLine(`$ ${command}\n`);
+  // outputChannel.appendLine(`$ ${command}\n`);
 
   return new Promise((resolve) => {
     const startTime = Date.now();
@@ -110,10 +110,6 @@ async function compileFile(context, document = null) {
         const duration = ((Date.now() - startTime) / 1000).toFixed(2);
 
         if (error) {
-          outputChannel.appendLine("❌ Compilation Failed!\n");
-          outputChannel.appendLine("Error Output:");
-          outputChannel.appendLine(stderr || error.message);
-
           vscode.window.showErrorMessage(
             `CPLE compilation failed (${duration}s)`
           );
@@ -122,8 +118,6 @@ async function compileFile(context, document = null) {
           parseCompilerErrors(document, stderr || error.message);
           resolve(false);
         } else {
-          outputChannel.appendLine("✅ Compilation Successful!\n");
-
           if (stdout.trim()) {
             outputChannel.appendLine("Compiler Output:");
             outputChannel.appendLine(stdout);
@@ -190,10 +184,6 @@ async function runFile(context) {
     
 
 
-  outputChannel.appendLine(`Executing: ${path.basename(outputFile)}\n`);
-  outputChannel.appendLine("─".repeat(60));
-  outputChannel.appendLine("Program Output:");
-  outputChannel.appendLine("─".repeat(60) + "\n");
 
   const startTime = Date.now();
 
@@ -206,26 +196,9 @@ async function runFile(context) {
     (error, stdout, stderr) => {
       const duration = ((Date.now() - startTime) / 1000).toFixed(2);
 
-      if (error && error.code !== 0) {
-        outputChannel.appendLine("\n❌ Runtime Error!\n");
-        if (stderr) outputChannel.appendLine(stderr);
-        outputChannel.appendLine(error.message);
-        vscode.window.showErrorMessage("Program execution failed");
-      } else {
-        if (stdout) {
-          outputChannel.appendLine(stdout);
-        }
-        if (stderr) {
-          outputChannel.appendLine("\nStderr:");
-          outputChannel.appendLine(stderr);
-        }
-        if (!stdout && !stderr) {
-          outputChannel.appendLine("(No output)");
-        }
+      if (stdout) {
+        outputChannel.appendLine(stdout);
       }
-
-      outputChannel.appendLine("\n" + "─".repeat(60));
-      outputChannel.appendLine(`⏱️  Execution time: ${duration}s`);
     }
   );
 }
